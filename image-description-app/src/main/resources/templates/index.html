@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>AI Image Description Generator</title>
+
+    <style>
+        body{
+            font-family: Arial;
+            text-align:center;
+            background:#f2f2f2;
+        }
+
+        .container{
+            width:400px;
+            margin:auto;
+            margin-top:100px;
+            padding:30px;
+            background:white;
+            border-radius:10px;
+            box-shadow:0px 0px 10px gray;
+        }
+
+        button{
+            padding:10px 20px;
+            background:#4CAF50;
+            color:white;
+            border:none;
+            border-radius:5px;
+            cursor:pointer;
+        }
+
+        #result{
+            margin-top:20px;
+            font-weight:bold;
+            text-align:left;
+            white-space:pre-wrap;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+<h2>AI Image Description Generator</h2>
+
+<form id="uploadForm">
+
+<input type="file" id="imageFile" name="file" required>
+
+<br><br>
+
+<button type="submit">Upload Image</button>
+
+</form>
+
+<div id="result"></div>
+
+</div>
+
+<script>
+
+document.getElementById("uploadForm").addEventListener("submit",function(e){
+
+    e.preventDefault();
+
+    let fileInput=document.getElementById("imageFile");
+
+    let formData=new FormData();
+
+    formData.append("file",fileInput.files[0]);
+
+    fetch("/image/upload",{
+        method:"POST",
+        body:formData
+    })
+    .then(response=>response.text())
+    .then(data=>{
+        document.getElementById("result").innerText=data;
+    })
+    .catch(error=>{
+        document.getElementById("result").innerText="Error uploading image";
+    });
+
+});
+
+</script>
+
+</body>
+</html>
